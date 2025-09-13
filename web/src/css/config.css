@@ -1,0 +1,82 @@
+.card-content {
+    margin: 25px;
+    display: flex;
+}
+
+.card {
+    border: rgb(224, 224, 224) 1px solid;
+}
+
+.card.title {
+    text-align: left;
+    height: 50px;
+}
+
+/*.card.body {*/
+/*    height: 100%;*/
+/*    text-align: left;*/
+/*}*/
+
+.card a {
+    text-decoration: none;
+    color: rgb(219, 127, 127);
+}
+
+.card a:hover {
+    text-decoration: none;
+    color: rgb(219, 127, 127, .7);
+}
+
+.config-setting {
+    height: 100%;
+    text-align: left;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.setting-group {
+    flex: 1 1 45%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-group input {
+    width: 450px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    height: 20px;
+    outline: none;
+    border: none;
+    /*border: 1px solid rgb(230, 230, 230);*/
+}
+
+/*.setting-group input:hover {*/
+/*    border: 1px solid rgb(230, 230, 230);*/
+/*}*/
+
+.setting-group input:focus {
+    border: 1px solid rgb(230, 230, 230);
+}
+
+.setting-group span {
+    font-size: 14px;
+    color: rgb(143, 143, 143);
+    padding-bottom: 2px;
+}
+
+.config-submit {
+    color: white;
+    background-color: rgb(13, 13, 13);
+    width: 80px;
+    height: 50px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    float: right;
+}
+
+.config-submit:hover {
+    background-color: rgb(33, 33, 33, .9);
+    cursor: pointer;
+}

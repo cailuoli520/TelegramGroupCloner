@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/config.css') }}">
+<div class="card-content">
+    <div class="card title">
+        <p>配置中心</p>
+    </div>
+</div>
+
+<div class="card-content">
+    <div class="card body">
+        <form method="post" action="{{ url_for('save_config') }}">
+            <div class="config-setting">
+                {% for section, items in config.items() %}
+                    {% if section != "replacements" %}
+                    <div class="setting-group">
+                        <p>{{ section }}</p>
+
+                        {% for key, value in items.items() %}
+                            <span>{{ key }}</span>
+                            <input
+                                type="text"
+                                name="{{ section }}.{{ key }}"
+                                value="{{ value }}">
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <button class="config-submit" type="submit">保存</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

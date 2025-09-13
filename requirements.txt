@@ -1,0 +1,6 @@
+pyinstaller
+telethon
+requests[socks]
+pysocks
+flask
+flask[async]

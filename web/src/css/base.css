@@ -1,0 +1,92 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    /* justify-content: space-between;  */
+    /* align-items: flex */
+}
+
+.sidebar {
+    background-color: rgb(249, 249, 249);
+    border-right: 1px solid rgb(237, 237, 237);
+    width: 300px;
+    height: 100%;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: black;
+}
+
+.sidebar-title {
+    font-size: 15px;
+    border-radius: 9px;
+    padding: 15px;
+}
+
+.sidebar-content {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.sidebar-content:hover {
+    cursor: pointer;
+}
+
+.favicon {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background-image: url("../images/favicon.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+.option-list {
+    padding: 15px;
+}
+
+.option-list .option{
+    margin-bottom: 10px;
+    font-size: 15px;
+    border-radius: 9px;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.option-list .option:hover {
+    cursor: pointer;
+    background-color: rgb(239, 239, 239);
+}
+
+.option-list .option.active {
+    background-color: rgb(234, 234, 234);
+}
+
+.option-list .option.active:hover {
+    cursor: pointer;
+    background-color: rgb(239, 239, 239);
+}
+
+.option-list .option span {
+    color: black;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .1);
+    box-shadow: 5px 5px 3px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+}

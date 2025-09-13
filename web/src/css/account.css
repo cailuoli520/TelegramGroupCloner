@@ -1,0 +1,138 @@
+.card-content {
+    margin: 25px;
+    display: flex;
+}
+
+.card {
+    border: rgb(224, 224, 224) 1px solid;
+}
+
+.card.title {
+    text-align: left;
+    height: 50px;
+}
+
+.card.body {
+    height: 100%;
+    text-align: left;
+}
+
+.card.body p{
+    display: inline-block;
+    border-left: rgb(78, 154, 250) 3px solid;
+    padding-left: 5px;
+}
+
+.card a {
+    text-decoration: none;
+    color: rgb(219, 127, 127);
+}
+
+.card a:hover {
+    text-decoration: none;
+    color: rgb(219, 127, 127, .7);
+}
+
+.monitor-table {
+    overflow: auto;
+    max-height: 100px;
+    text-align: left;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.clone-table {
+    overflow: auto;
+    max-height: 450px;
+    text-align: left;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.btn {
+    float: right;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    width: 70px;
+    height: 45px;
+    font-size: 15px;
+    border-radius: 20px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.operate {
+    width: 90px;
+    float: left;
+}
+
+.btn:hover:not(.disable){
+    background-color: rgb(0, 0, 0, .7);
+}
+
+.disable {
+    background-color: rgb(144, 144, 144);
+    cursor: not-allowed;
+}
+
+.secondary-btn {
+    border: rgb(194, 194, 194) 1px solid;
+    color: black;
+    background-color: rgb(255, 255, 255);
+}
+
+.secondary-btn.disable {
+    color: rgb(0, 0, 0, .4);
+    border: rgb(194, 194, 194, .4) 1px solid;
+    cursor: not-allowed;
+}
+
+.secondary-btn:hover:not(.disable) {
+    background-color: rgb(236, 236, 236);
+}
+
+.start-monitoring {
+    width: 90px;
+}
+
+.cease-monitoring {
+    width: 90px;
+}
+
+.account-manage {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.clone-accounts tr{
+    height: 40px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    height: 40px;
+    border-bottom: rgb(230, 230, 230) 1px solid;
+}
+
+td {
+    height: 40px;
+}
+
+/*table thead th:nth-child(1) {*/
+/*    width: 80px;*/
+/*}*/
+
+/*table thead th:nth-child(4) {*/
+/*    width: 100px;*/
+/*}*/
+
+/*table thead th:nth-child(5) {*/
+/*    width: 300px;*/
+/*}*/

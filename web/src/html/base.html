@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>群组克隆工具 Telegram Group Cloner</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-title">
+            <div class="sidebar-content">
+                <i class="favicon"></i>
+                <span>TelegramGroupCloner</span>
+            </div>
+        </div>
+        <div class="option-list">
+            <a class="option {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">
+                首页
+            </a>
+            <a class="option {% if request.path == url_for('config') %}active{% endif %}" href="{{ url_for('config') }}">
+                配置中心
+            </a>
+            <a class="option {% if request.path == url_for('account') %}active{% endif %}" href="{{ url_for('account') }}">
+                账号管理
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+{% block scripts %}{% endblock %}
+</html>

@@ -1,0 +1,20 @@
+.basic-info {
+    margin: 25px;
+    display: flex;
+    /*top: 30%;*/
+    /*position: sticky;*/
+}
+
+.card {
+    border: rgb(224, 224, 224) 1px solid;
+}
+
+.card a {
+    text-decoration: none;
+    color: rgb(219, 127, 127);
+}
+
+.card a:hover {
+    text-decoration: none;
+    color: rgb(219, 127, 127, .7);
+}
