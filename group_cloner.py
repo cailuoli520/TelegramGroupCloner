@@ -1,4 +1,5 @@
 import asyncio
+import os
 import threading
 
 from utils.file_ext import load_config, init_files
@@ -14,4 +15,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-    app.run(debug=True)
+    os.system(f"start http://127.0.0.1:5000")
+    app.run()

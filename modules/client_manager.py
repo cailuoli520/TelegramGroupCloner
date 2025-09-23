@@ -229,6 +229,26 @@ async def delete_profile_photos(client: TelegramClient) -> None:
             logger.info(e)
 
 
+async def clear_profile_photo() -> bool:
+    try:
+        for client in clients_pool.keys():
+            await delete_profile_photos(client)
+        return True
+    except Exception as e:
+        logger.info(e)
+        return False
+
+
+async def join_target_group() -> bool:
+    try:
+        for client in clients_pool.keys():
+            await check_and_join_target(client)
+        return True
+    except Exception as e:
+        logger.info(e)
+        return False
+
+
 async def check_and_join_target(client: TelegramClient) -> None:
     try:
         await client(JoinChannelRequest(Config.TARGET_GROUP))

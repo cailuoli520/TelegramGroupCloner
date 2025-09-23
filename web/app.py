@@ -81,3 +81,17 @@ async def cease():
     if fut.result():
         monitor_accounts, _ = client_manager.get_session_info()
         return {"monitor": monitor_accounts}, 200
+
+
+@app.route("/clear_profile_photo")
+async def clear_profile_photo():
+    fut = client_manager.run_in_telethon_loop(client_manager.clear_profile_photo())
+    if fut.result():
+        return "ok", 200
+
+
+@app.route("/join_target_group")
+async def join_target_group():
+    fut = client_manager.run_in_telethon_loop(client_manager.join_target_group())
+    if fut.result:
+        return "ok", 200
