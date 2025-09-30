@@ -18,16 +18,20 @@ from modules import globals
 
 async def login_client(file_path: str) -> Union[TelegramClient, bool]:
     logger.info(f"正在加载: {file_path}")
+    try:
+        client = TelegramClient(f"{file_path}", Config.API_ID, Config.API_HASH, proxy=Config.PROXY, loop=telethon_loop)
+        await client.connect()
 
-    client = TelegramClient(f"{file_path}", Config.API_ID, Config.API_HASH, proxy=Config.PROXY, loop=telethon_loop)
-    await client.connect()
+        if await client.is_user_authorized():
+            logger.info(f"加载成功: {file_path}")
+            return client
+        else:
+            await client.disconnect()
+            await cleanup_not_authorized_client(file_path)
+            return False
 
-    if await client.is_user_authorized():
-        logger.info(f"加载成功: {file_path}")
-        return client
-    else:
-        await client.disconnect()
-        await cleanup_not_authorized_client(file_path)
+    except ConnectionError:
+        logger.warning("连接Telegram服务器失败，请检查网络设置")
         return False
 
 
@@ -75,7 +79,7 @@ async def cleanup_not_authorized_client(session_name):
         os.remove(f"{session_name}")
         logger.info(f"清理未授权session成功 {session_name}")
     except PermissionError:
-        logger.warning(f"清理未授权session失败 {session_name}，文件正在使用中")
+        logger.warning(f"清理未授权session失败 {session_name}，请手动清理")
 
 
 async def cleanup_frozen_client(client: TelegramClient) -> None:
@@ -93,9 +97,6 @@ async def cleanup_frozen_client(client: TelegramClient) -> None:
 
 
 async def load_sessions() -> None:
-    if sessions_pool:
-        return
-
     for file_name in os.listdir("sessions"):
         if not file_name.endswith(".session"):
             continue
@@ -231,9 +232,12 @@ async def delete_profile_photos(client: TelegramClient) -> None:
 
 async def clear_profile_photo() -> bool:
     try:
-        for client in clients_pool.keys():
-            await delete_profile_photos(client)
-        return True
+        if len(clients_pool.keys()) > 0:
+            for client in clients_pool.keys():
+                await delete_profile_photos(client)
+            return True
+        else:
+            return False
     except Exception as e:
         logger.info(e)
         return False
@@ -241,9 +245,12 @@ async def clear_profile_photo() -> bool:
 
 async def join_target_group() -> bool:
     try:
-        for client in clients_pool.keys():
-            await check_and_join_target(client)
-        return True
+        if len(clients_pool.keys()) > 0:
+            for client in clients_pool.keys():
+                await check_and_join_target(client)
+            return True
+        else:
+            return False
     except Exception as e:
         logger.info(e)
         return False

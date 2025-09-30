@@ -1,8 +1,8 @@
 import configparser
 import os
 
-from typing import Union
-from modules.globals import config_path
+from typing import Union, Dict
+from modules.globals import config_path, log_path
 from telethon.tl.types import InputChannel, PeerChat
 from utils.log import logger
 
@@ -19,7 +19,7 @@ class Config:
     API_HASH = None
 
 
-async def load_config() -> None:
+def load_config() -> None:
     default_content = """[telegram]
 api_id = 9597683
 api_hash = 9981e2f10aeada4452a9538921132099
@@ -63,6 +63,8 @@ a = b
             port = config.getint("proxy", "port")
             proxy_type = config.get("proxy", "type")
             Config.PROXY = (proxy_type, host, port)
+        else:
+            Config.PROXY = None
 
         user_dis = config.get("blacklist", "user_ids", fallback="")
         keywords = config.get("blacklist", "keywords", fallback="")
@@ -74,12 +76,12 @@ a = b
         if config.has_section("replacements"):
             Config.REPLACEMENTS.update(dict(config.items("replacements")))
 
-        logger.info(f"成功加载配置文件: {config_path}")
+        logger.info(f"加载配置文件成功: {config_path}")
     except Exception as e:
         logger.warning(f"配置加载失败: {e}")
 
 
-def read_config():
+def read_config() -> Dict:
     parser = configparser.ConfigParser()
     parser.read(config_path, encoding="utf-8-sig")
 
@@ -89,7 +91,7 @@ def read_config():
     return data
 
 
-def write_config(data):
+def write_config(data) -> None:
     parser = configparser.ConfigParser()
     parser.read(config_path, encoding="utf-8-sig")
 
@@ -102,7 +104,30 @@ def write_config(data):
     with open(config_path, "w", encoding="utf-8") as f:
         parser.write(f)
 
+    logger.info(f"保存配置文件成功: {config_path}")
 
-async def init_files():
+
+def init_files() -> None:
     os.makedirs("setting", exist_ok=True)
     os.makedirs("sessions", exist_ok=True)
+
+
+def read_log() -> list[str]:
+    with open(log_path, "r", encoding="gbk") as f:
+        log_content = f.read()
+
+    title_lines = [
+        "[TERM] 作者：欧阳",
+        "[TERM] 交流群：@oyDevelopersClub",
+        "[TERM] 开源地址：https://github.com/ouyooung/TelegramGroupCloner"
+    ]
+
+    log_lines = [line for line in log_content.strip().split("\n")]
+    return title_lines + log_lines
+
+
+def clear_log() -> bool:
+    with open(log_path, "w", encoding="gbk") as f:
+        f.write("")
+
+    return True

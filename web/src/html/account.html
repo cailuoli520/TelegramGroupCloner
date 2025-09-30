@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account.css') }}">
+<div class="info-box">
+    <img src="src/images/info.svg">
+    <p></p>
+</div>
 
 <div class="card-content">
     <div class="card title">
@@ -9,10 +14,12 @@
     </div>
 </div>
 
-<!-- 监听账号 -->
 <div class="card-content">
     <div class="card body">
-        <p>监听账号</p>
+        <div class="box-card-title">
+            <span class="left-tip"></span>
+            <span>监听账号</span>
+        </div>
         <div class="account-manage">
             <div class="monitor-table">
                 <table>
@@ -44,17 +51,19 @@
                 {% set has_online = monitor_accounts|selectattr("status", "equalto", "在线")|list|length > 0 %}
                 {% set has_monitoring = monitor_accounts|selectattr("status", "equalto", "监控中")|list|length > 0 %}
                 <button class="btn login-monitor-account {% if has_online or has_monitoring %}disable{% endif %}">登录</button>
-                <button class="btn start-monitoring secondary-btn {% if not has_online %}disable{% endif %}">开始监控</button>
-                <button class="btn cease-monitoring secondary-btn {% if not has_monitoring %}disable{% endif %}">停止监控</button>
+                <button class="btn start-monitoring secondary-btn {% if not has_online %}disable{% endif %}">开始监听</button>
+                <button class="btn cease-monitoring secondary-btn {% if not has_monitoring %}disable{% endif %}">停止监听</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 克隆账号 -->
 <div class="card-content">
     <div class="card body">
-        <p>克隆账号</p>
+        <div class="box-card-title">
+            <span class="left-tip"></span>
+            <span>克隆账号</span>
+        </div>
         <div class="account-manage">
             <div class="buttons">
                 {% set has_online = clone_accounts|selectattr("status", "equalto", "在线")|list|length > 0 %}
@@ -96,5 +105,6 @@
     </div>
 </div>
 
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 <script src="{{ url_for('static', filename='js/account.js') }}"></script>
 {% endblock %}

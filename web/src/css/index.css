@@ -1,12 +1,38 @@
-.basic-info {
+.card-content {
     margin: 25px;
     display: flex;
-    /*top: 30%;*/
-    /*position: sticky;*/
 }
 
 .card {
     border: rgb(224, 224, 224) 1px solid;
+}
+
+.card.title {
+    text-align: left;
+    height: 45px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.card.body {
+    height: 100%;
+    text-align: left;
+}
+
+.left-tip{
+    display: inline-block;
+    background-color: rgb(78, 154, 250);
+    height: 14px;
+    width: 6px;
+    vertical-align: middle;
+    margin-bottom: 3px;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+.box-card-title {
+    margin-bottom: 16px;
+    margin-top: 16px;
 }
 
 .card a {
@@ -17,4 +43,36 @@
 .card a:hover {
     text-decoration: none;
     color: rgb(219, 127, 127, .7);
+}
+
+.info-box {
+    width: 300px;
+    height: 50px;
+    background-color: white;
+    top: -40px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    transition: ease 0.5s;
+    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, .1);
+    border-radius: 3px;
+}
+
+.info-box img {
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}
+
+.info-box p {
+    display: inline-block;
+    font-size: 15px;
+}
+
+.info-box.active {
+    top: 40px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
 }

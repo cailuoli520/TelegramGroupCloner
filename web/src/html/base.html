@@ -25,6 +25,9 @@
             <a class="option {% if request.path == url_for('account') %}active{% endif %}" href="{{ url_for('account') }}">
                 账号管理
             </a>
+            <a class="option {% if request.path == url_for('log') %}active{% endif %}" href="{{ url_for('log') }}">
+                日志
+            </a>
         </div>
     </div>
 

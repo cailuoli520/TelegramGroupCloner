@@ -10,4 +10,5 @@ monitor_client = TelegramClient
 message_id_mapping: Dict[int, int] = {}
 sessions_pool = {}
 telethon_loop = asyncio.new_event_loop()
-config_path = 'setting/config.ini'
+config_path = "setting/config.ini"
+log_path = "logs/app.log"

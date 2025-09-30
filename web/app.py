@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from utils.file_ext import read_config, write_config
+from utils.file_ext import read_config, write_config, load_config, read_log, clear_log
 from modules import globals, client_manager, monitor
 
 app = Flask(
@@ -24,6 +24,7 @@ def config():
 def save_config():
     data = request.form.items()
     write_config(data)
+    load_config()
     return redirect(url_for("config"))
 
 
@@ -86,12 +87,35 @@ async def cease():
 @app.route("/clear_profile_photo")
 async def clear_profile_photo():
     fut = client_manager.run_in_telethon_loop(client_manager.clear_profile_photo())
-    if fut.result():
+    result = fut.result()
+    if result is True:
         return "ok", 200
+    else:
+        return "error", 500
 
 
 @app.route("/join_target_group")
 async def join_target_group():
     fut = client_manager.run_in_telethon_loop(client_manager.join_target_group())
-    if fut.result:
+    result = fut.result()
+    if result is True:
         return "ok", 200
+    else:
+        return "error", 500
+
+
+@app.route("/log")
+async def log():
+    return render_template("log.html")
+
+
+@app.route("/logs")
+async def logs():
+    log_lines = read_log()
+    return {"logs": log_lines}, 200
+
+
+@app.route("/clear_logs")
+async def clear_logs():
+    clear_log()
+    return "ok", 200

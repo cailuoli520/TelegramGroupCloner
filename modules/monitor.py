@@ -173,7 +173,7 @@ async def init_monitor() -> bool:
 
     logger.info(f"开始监听新消息")
 
-    sessions_pool["monitor"].update({"status": "监控中"})
+    sessions_pool["monitor"].update({"status": "监听中"})
 
     @globals.monitor_client.on(events.NewMessage(chats=Config.SOURCE_GROUPS))
     async def handler(event: Message):

@@ -2,7 +2,14 @@
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-<div class="basic-info">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/config.css') }}">
+<div class="card-content">
+    <div class="card title">
+        <p>首页</p>
+    </div>
+</div>
+
+<div class="card-content">
     <div class="card">
         <h2>欢迎使用 Telegram Group Cloner</h2>
         <p>开源地址：<a href="https://github.com/ouyooung/TelegramGroupCloner">https://github.com/ouyooung/TelegramGroupCloner</a></p>
@@ -10,5 +17,4 @@
         <p>请遵循当地法律法规，在合法的范围内使用本程序！任何基于本项目或本项目二次开发产生的法律纠纷责任，我们对此不承担任何责任！</p>
     </div>
 </div>
-
 {% endblock %}

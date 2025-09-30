@@ -21,13 +21,13 @@ body, html {
 
 .sidebar-title {
     font-size: 15px;
-    border-radius: 9px;
+    border-radius: 5px;
     padding: 15px;
 }
 
 .sidebar-content {
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .sidebar-content:hover {
@@ -51,7 +51,7 @@ body, html {
 .option-list .option{
     margin-bottom: 10px;
     font-size: 15px;
-    border-radius: 9px;
+    border-radius: 5px;
     padding: 10px;
     text-decoration: none;
     display: block;
@@ -79,6 +79,7 @@ body, html {
     height: 100%;
     width: 100%;
     overflow: auto;
+    background-color: rgb(248, 247, 246);
 }
 
 .card {
@@ -86,7 +87,8 @@ body, html {
     height: 100%;
     background-color: rgba(255, 255, 255, .1);
     box-shadow: 5px 5px 3px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     padding: 10px;
+    background-color: white;
 }

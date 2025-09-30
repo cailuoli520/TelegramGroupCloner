@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/logs.css') }}">
+<div class="info-box">
+    <img src="src/images/info.svg">
+    <p></p>
+</div>
+
+<div class="card-content">
+    <div class="card title">
+        <p>日志</p>
+    </div>
+</div>
+
+<div class="card-content">
+    <div class="card body">
+        <div class="box-card-title">
+            <span class="left-tip"></span>
+            <span>日志信息</span>
+        </div>
+        <div class="background">
+            <div class="log-lines">
+            </div>
+        </div>
+        <button class="btn">清空日志</button>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/logs.js') }}"></script>
+{% endblock %}

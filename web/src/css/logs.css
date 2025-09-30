@@ -1,0 +1,61 @@
+.background {
+    margin: 10px;
+    height: 650px;
+    background-color: black;
+    overflow: auto;
+    padding-bottom: 10px;
+    border-radius: 5px;
+}
+
+.log-lines {
+    padding: 7px;
+}
+
+.background span {
+    font-size: 14px;
+    margin: 0;
+    color: white;
+    text-align: left;
+    display: block;
+    font-family: "Consolas", "Courier New", monospace;
+}
+
+.background span::selection {
+    background-color: rgb(97, 97, 97);
+}
+
+.background::-webkit-scrollbar {
+    width: 8px;
+}
+
+.background::-webkit-scrollbar-track {
+    background: #222;
+    border-radius: 4px;
+}
+
+.background::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.background::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+.btn {
+    float: right;
+    border: rgb(194, 194, 194) 1px solid;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    width: 80px;
+    height: 45px;
+    font-size: 15px;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background-color: rgb(236, 236, 236);
+}
