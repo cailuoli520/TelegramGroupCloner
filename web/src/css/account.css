@@ -90,6 +90,93 @@ td {
     height: 40px;
 }
 
+.add-account-box {
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, .1);
+    border-radius: 3px;
+}
+
+.account-container {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-container {
+    flex-direction: column;
+    display: flex;
+}
+
+.add-account-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(0, 0, 0, .3);
+    display: none;
+}
+
+.input-container span{
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+.input-container input {
+    height: 30px;
+    width: 300px;
+    outline: none;
+    border-radius: 2px;
+    border: 1px solid rgb(200, 200, 200);
+    font-size: 16px;
+    padding-left: 5px;
+}
+
+.input-container input{
+}
+
+.add-account {
+    height: 50px;
+    width: 300px;
+    border-radius: 25px;
+    margin: 0;
+}
+
+.add-account-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.add-account-title h3 {
+    margin-left: 45px;
+}
+
+.close {
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 20px;
+    width: 21px;
+    height: 21px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: default;
+}
+
+.close:hover {
+    background-color: rgba(131, 131, 131, 0.2);
+}
+
 /*table thead th:nth-child(1) {*/
 /*    width: 80px;*/
 /*}*/

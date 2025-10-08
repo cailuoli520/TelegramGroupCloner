@@ -5,7 +5,33 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account.css') }}">
 <div class="info-box">
     <img src="src/images/info.svg">
-    <p></p>
+    <p>加载成功</p>
+</div>
+
+<div class="add-account-container">
+    <div class="add-account-box">
+        <div class="add-account-title">
+            <h3>添加账号</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="account-container">
+            <div class="input-container">
+                <span>手机号</span>
+                <input id="phone">
+            </div>
+            <div class="input-container">
+                <span>验证码</span>
+                <input id="code">
+            </div>
+            <div class="input-container">
+                <span>两步验证密码</span>
+                <input id="2fa">
+            </div>
+            <div class="add-account-buttons">
+                <button class="btn add-account">发送验证码</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="card-content">
@@ -49,7 +75,8 @@
             </div>
             <div class="buttons">
                 {% set has_online = monitor_accounts|selectattr("status", "equalto", "在线")|list|length > 0 %}
-                {% set has_monitoring = monitor_accounts|selectattr("status", "equalto", "监控中")|list|length > 0 %}
+                {% set has_monitoring = monitor_accounts|selectattr("status", "equalto", "监听中")|list|length > 0 %}
+                <button class="btn operate add-monitor-account secondary-btn">添加账号</button>
                 <button class="btn login-monitor-account {% if has_online or has_monitoring %}disable{% endif %}">登录</button>
                 <button class="btn start-monitoring secondary-btn {% if not has_online %}disable{% endif %}">开始监听</button>
                 <button class="btn cease-monitoring secondary-btn {% if not has_monitoring %}disable{% endif %}">停止监听</button>
@@ -66,7 +93,7 @@
         </div>
         <div class="account-manage">
             <div class="buttons">
-                {% set has_online = clone_accounts|selectattr("status", "equalto", "在线")|list|length > 0 %}
+                <button class="btn operate add-clone-account secondary-btn">添加账号</button>
                 <button class="btn operate join-target-group secondary-btn">加入目标群</button>
                 <button class="btn operate clear-profile-photo secondary-btn">清空头像</button>
             </div>

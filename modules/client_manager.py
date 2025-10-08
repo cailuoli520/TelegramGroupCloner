@@ -1,8 +1,9 @@
 import asyncio
 import os
 
-from typing import Union, Tuple, List, Dict, Any, Optional
+from typing import Union, Tuple, List, Dict, Any
 from telethon import TelegramClient
+from telethon.errors import PhoneNumberInvalidError, SessionPasswordNeededError, PhoneCodeInvalidError
 from telethon.tl.functions.photos import DeletePhotosRequest
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.types import InputPhoto
@@ -16,10 +17,16 @@ from modules.globals import sessions_pool, clients_pool, client_locks, telethon_
 from modules import globals
 
 
-async def login_client(file_path: str) -> Union[TelegramClient, bool]:
+async def load_session(file_path: str) -> Union[TelegramClient, bool]:
     logger.info(f"正在加载: {file_path}")
     try:
-        client = TelegramClient(f"{file_path}", Config.API_ID, Config.API_HASH, proxy=Config.PROXY, loop=telethon_loop)
+        client = TelegramClient(
+            file_path,
+            Config.API_ID,
+            Config.API_HASH,
+            proxy=Config.PROXY,
+            loop=telethon_loop
+        )
         await client.connect()
 
         if await client.is_user_authorized():
@@ -46,7 +53,7 @@ async def update_profile(client: TelegramClient, monitor_client: TelegramClient,
 
         photos = await monitor_client.get_profile_photos(sender, limit=1)
         if photos:
-            profile_path = await monitor_client.download_media(photos[0])
+            profile_path = await monitor_client.download_media(photos[0], f"{globals.profile_photos_path}/{sender_id}")
             if profile_path and os.path.exists(profile_path):
                 uploaded = await client.upload_file(file=profile_path)
 
@@ -74,18 +81,21 @@ async def update_profile(client: TelegramClient, monitor_client: TelegramClient,
         logger.error(f"设置资料出现错误: {e}")
 
 
-async def cleanup_not_authorized_client(session_name):
+async def cleanup_not_authorized_client(file_path: str):
     try:
-        os.remove(f"{session_name}")
-        logger.info(f"清理未授权session成功 {session_name}")
+        os.remove(file_path)
+        session_name = file_path.replace("sessions/", "").replace(".session", "")
+        del sessions_pool[session_name]
+        logger.info(f"清理未授权会话文件成功 {file_path}")
     except PermissionError:
-        logger.warning(f"清理未授权session失败 {session_name}，请手动清理")
+        logger.warning(f"清理未授权会话文件失败 {file_path}，请手动清理")
 
 
 async def cleanup_frozen_client(client: TelegramClient) -> None:
     try:
-        phone = (await client.get_me()).phone
-        logger.info(f"[{phone}] 被冻结")
+
+        me = await client.get_me()
+        logger.info(f"[{me.phone}] 被冻结")
 
         await client.disconnect()
 
@@ -121,7 +131,7 @@ async def login_all_session() -> bool:
         if filename.endswith(".session"):
             session_name = filename.replace(".session", "")
 
-            client = await login_client(f"sessions/{filename}")
+            client = await load_session(f"sessions/{filename}")
 
             if client:
                 clients_pool[client] = None
@@ -139,9 +149,9 @@ async def login_all_session() -> bool:
 
 
 async def login_monitor_session() -> bool:
-    file_path = "monitor.session"
+    file_path = "sessions/monitor.session"
 
-    client = await login_client(file_path)
+    client = await load_session(file_path)
 
     if client:
         globals.monitor_client = client
@@ -287,3 +297,97 @@ def run_telethon_loop():
 
 def run_in_telethon_loop(coro):
     return asyncio.run_coroutine_threadsafe(coro, telethon_loop)
+
+
+async def send_code(phone: str, session_type: str) -> Dict[str, Union[bool, str]]:
+    logger.info(f"发送验证码: {phone}")
+    client = None
+
+    if session_type == "cloner":
+        file_path = f"sessions/{phone}"
+    else:
+        file_path = "sessions/monitor"
+
+    try:
+        client = TelegramClient(
+            file_path,
+            Config.API_ID,
+            Config.API_HASH,
+            proxy=Config.PROXY
+        )
+        await client.connect()
+
+        auth = await client.send_code_request(phone)
+        globals.phone_data["phone_code_hash"] = auth.phone_code_hash
+        globals.phone_data["file_path"] = file_path
+        globals.phone_data["phone"] = phone
+
+        return {"status": True, "msg": "验证码发送成功"}
+
+    except ConnectionError:
+        msg = "Telegram服务器连接失败，请检查网络设置"
+        logger.warning(msg)
+        return {"status": False, "msg": msg}
+
+    except PhoneNumberInvalidError:
+        msg = "手机号无效"
+        logger.warning(msg)
+
+        if os.path.exists(f"{file_path}.session"):
+            os.remove(f"{file_path}.session")
+
+        return {"status": False, "msg": msg}
+
+    except Exception as e:
+        msg = f"发送验证码过程中发生错误: {e}"
+        logger.warning(msg)
+        return {"status": False, "msg": msg}
+
+    finally:
+        if client:
+            await client.disconnect()
+
+
+async def sign_in(code, password) -> Dict[str, Union[bool, str]]:
+    client = None
+    logger.info(f"正在登录 {globals.phone_data['file_path']}")
+    try:
+        client = TelegramClient(
+            globals.phone_data["file_path"],
+            Config.API_ID,
+            Config.API_HASH,
+            proxy=Config.PROXY
+        )
+        await client.connect()
+
+        try:
+            await client.sign_in(
+                phone=globals.phone_data["phone"],
+                code=code,
+                phone_code_hash=globals.phone_data["phone_code_hash"])
+
+        except SessionPasswordNeededError:
+            await client.sign_in(password=password)
+
+        msg = f"登陆成功 {globals.phone_data['file_path']}"
+        logger.info(msg)
+        return {"status": True, "msg": "登陆成功"}
+
+    except ConnectionError:
+        msg = "Telegram服务器连接失败，请检查网络设置"
+        logger.warning(msg)
+        return {"status": False, "msg": msg}
+
+    except PhoneCodeInvalidError:
+        msg = "验证码错误"
+        logger.warning(msg)
+        return {"status": False, "msg": msg}
+
+    except Exception as e:
+        msg = f"登录过程中发生错误: {e}"
+        logger.warning(msg)
+        return {"status": False, "msg": msg}
+
+    finally:
+        if client:
+            await client.disconnect()

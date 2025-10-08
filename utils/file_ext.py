@@ -45,7 +45,7 @@ a = b
     if not os.path.exists(config_path):
         with open(config_path, "w", encoding="utf-8") as f:
             f.write(default_content)
-            logger.info(f"已初始化配置文件: {config_path}")
+            logger.info(f"已初始化配置文件")
 
     config = configparser.ConfigParser()
     try:
@@ -76,7 +76,7 @@ a = b
         if config.has_section("replacements"):
             Config.REPLACEMENTS.update(dict(config.items("replacements")))
 
-        logger.info(f"加载配置文件成功: {config_path}")
+        logger.info(f"加载配置文件成功")
     except Exception as e:
         logger.warning(f"配置加载失败: {e}")
 
@@ -110,6 +110,8 @@ def write_config(data) -> None:
 def init_files() -> None:
     os.makedirs("setting", exist_ok=True)
     os.makedirs("sessions", exist_ok=True)
+    os.makedirs("downloads", exist_ok=True)
+    os.makedirs("profile_photos", exist_ok=True)
 
 
 def read_log() -> list[str]:

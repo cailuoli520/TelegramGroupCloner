@@ -119,3 +119,27 @@ async def logs():
 async def clear_logs():
     clear_log()
     return "ok", 200
+
+
+@app.route("/send_code", methods=["POST"])
+async def send_code():
+    phone = request.json["phone"]
+    session_type = request.json["type"]
+    fut = await client_manager.send_code(phone, session_type)
+
+    if fut["status"] is True:
+        return fut, 200
+    else:
+        return fut, 500
+
+
+@app.route("/sign_in", methods=["POST"])
+async def sign_in():
+    code = request.json["code"]
+    password = request.json["password"]
+    fut = await client_manager.sign_in(code, password)
+
+    if fut["status"] is True:
+        return fut, 200
+    else:
+        return fut, 500
