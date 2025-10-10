@@ -30,7 +30,7 @@ def save_config():
 
 @app.route("/account")
 async def account():
-    await client_manager.load_sessions()
+    client_manager.load_session_pool()
 
     monitor_accounts, clone_accounts = client_manager.get_session_info()
 

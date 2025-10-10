@@ -33,6 +33,7 @@ async def load_session(file_path: str) -> Union[TelegramClient, bool]:
             logger.info(f"加载成功: {file_path}")
             return client
         else:
+            logger.info(f"加载失败，未授权: {file_path}")
             await client.disconnect()
             await cleanup_not_authorized_client(file_path)
             return False
@@ -106,14 +107,14 @@ async def cleanup_frozen_client(client: TelegramClient) -> None:
         logger.error(f"清理被冻结账号失败: {e}")
 
 
-async def load_sessions() -> None:
+def load_session_pool() -> None:
     for file_name in os.listdir("sessions"):
         if not file_name.endswith(".session"):
             continue
 
         session_name = file_name.replace(".session", "")
 
-        if session_name in sessions_pool:
+        if session_name in sessions_pool or session_name == "monitor":
             continue
 
         sessions_pool[session_name] = {
@@ -149,7 +150,7 @@ async def login_all_session() -> bool:
 
 
 async def login_monitor_session() -> bool:
-    file_path = "sessions/monitor.session"
+    file_path = "monitor.session"
 
     client = await load_session(file_path)
 
@@ -306,7 +307,7 @@ async def send_code(phone: str, session_type: str) -> Dict[str, Union[bool, str]
     if session_type == "cloner":
         file_path = f"sessions/{phone}"
     else:
-        file_path = "sessions/monitor"
+        file_path = "monitor"
 
     try:
         client = TelegramClient(
