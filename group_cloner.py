@@ -7,7 +7,7 @@ from web.app import app
 
 
 def main():
-    # os.system(f"start http://127.0.0.1:5000")
+    os.system(f"start http://127.0.0.1:5000")
     threading.Thread(target=run_telethon_loop, daemon=True).start()
     init_files()
     load_config()
@@ -15,4 +15,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    app.run(debug=True)
+    app.run()
